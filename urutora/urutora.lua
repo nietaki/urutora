@@ -14,7 +14,7 @@ local toggle 	    = require(modules .. 'toggle')
 local progressBar = require(modules .. 'progressBar')
 local joy 		    = require(modules .. 'joy')
 
-local kat = require(modules .. 'katsudo') 
+local kat = require(modules .. 'katsudo')
 
 local urutora = class('urutora')
 urutora.utils = utils
@@ -246,10 +246,10 @@ function urutora:draw()
     if v.visible then
       if utils.needsBase(v) then
         v:drawBaseRectangle()
-      else
-        if v.draw then
-          v:draw()
-        end
+      end
+
+      if v.draw then
+        v:draw()
       end
 
       if not utils.isPanel(v) then

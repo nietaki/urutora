@@ -13,6 +13,10 @@ function slider:constructor()
   self.padding = 0
 end
 
+function slider:range()
+  return self.maxValue - self.minValue
+end
+
 function slider:draw()
   local bgc, fgc = self:getLayerColors()
   local mode = self.style.outline and 'line' or 'fill'
@@ -22,8 +26,8 @@ function slider:draw()
   lg.setColor(bgc)
   if self.axis == 'x' then
     local n = self.h / 2
-    local x = self.x + n / 2 + (self.w - self.h) * self.value
-    
+    local x = self.x + n / 2 + ((self.w - self.h) * self.value - self.minValue) / self:range()
+
     -- bg
     if layers.bgSlider then
       utils.drawWithShader(self, layers.bgSlider, self.x, self.y)
@@ -73,9 +77,9 @@ function slider:update(dt)
 
   if self.pressed then
     if self.axis == 'x' then
-      self:setValue(((x + oy) - self.px) / (self.w - self.padding * 2))
+      self:setValue(self.minValue + ((x + oy) - self.px) / (self.w - self.padding * 2) * (self.maxValue - self.minValue))
     else
-      self:setValue(((y + oy) - self.py) / (self.h - self.padding * 2))
+      self:setValue(self.minValue + ((y + oy) - self.py) / (self.h - self.padding * 2) * (self.maxValue - self.minValue))
     end
   end
 end
